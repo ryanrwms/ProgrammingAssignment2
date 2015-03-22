@@ -6,11 +6,12 @@
 
 makeCacheMatrix <- function(original.matrix = matrix()) {
   
-  # Let's check if we have correct input
+  # Check to see if the input is correct
   if (!is.matrix(original.matrix)) {
     stop("Please give a matrix")
   }
   
+  # set matrix to null
   inverted.matrix <- NULL
   
   set <- function(y) {
@@ -21,7 +22,7 @@ makeCacheMatrix <- function(original.matrix = matrix()) {
   # Functions for getting and setting cached inv. matrix value
   get <- function() original.matrix
   
-  # Inversing the matrix using build in solve() function in R
+  # Invert matrix using build in solve() function in R
   set.inverse <- function(solve) inverted.matrix <<- solve
   get.inverse <- function() inverted.matrix
   
@@ -41,14 +42,13 @@ makeCacheMatrix <- function(original.matrix = matrix()) {
 cacheSolve <- function(cacheable.matrix, ...) {
   inverted.matrix <- cacheable.matrix$get.inverse()
   
-  # Do we have cached matrix available?
+  # Check to see if we have cached matrix available
   if(!is.null(inverted.matrix)) {
     message("Getting cached inverse matrix")
     return(inverted.matrix)
   }
   
-  # Let's create inverted matrix in case
-  # there's no cached matrix available.
+  # Create inverted matrix in case if there's no cached matrix available.
   matrix.to.inverse <- cacheable.matrix$get()
   inverted.matrix <- solve(matrix.to.inverse)
   cacheable.matrix$set.inverse(inverted.matrix)
